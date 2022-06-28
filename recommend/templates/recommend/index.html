@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+
+    <title>게임 추천 사이트</title>
+
+    <!-- 부트스트랩 -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!--AOS스크롤 애니메이션-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" >
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+
+  <body style="background-color: rgb(49, 49, 49);">
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/test.js' %}"></script>
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:rgb(49, 49, 49);">
+          <a class="navbar-brand" href="#">게임 추천</a>
+          
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              
+              <li class="nav-item active">
+                <a class="nav-link" href="{% static 'js/test.js' %}">메뉴</a> <!--테스트 js파일 연결-->
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">별점</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">분석</a>
+              </li>
+            </ul>
+          </div>
+          {% if user.is_authenticated %}
+          <a class="" style="color:white"> {{ user.username }}님 환영합니다.</a><br>
+          <a class="nav-link" href="{% url 'common:logout' %}">(로그아웃)</a>
+          {% else %}
+          <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+          <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+          {% endif %}
+        </nav>
+    </header>
+
+    <div class="position-relative overflow-hidden text-left bg-light" style="background-image:url(/static/img/PUBG.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+      <div class=" p-lg-5 mx-auto my-5">
+        <h1 class="display-4 font-weight-normal" style="color: whitesmoke;">게임 추천 서비스</h1>
+        <p class="lead font-weight-normal" style="color:whitesmoke;">어떤 게임을 할지 고민인 사람들을 위한 서비스. <br> 당신이 가장 재미있게 할 수 있는 게임을 찾아보세요.</p>
+        <a class="btn btn-outline-secondary btn-lg" href="testpage" style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+      </div>
+
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+
+
+    <div class="container marketing">
+      <!-- START THE FEATURETTES -->
+  
+      <br>
+      <br>
+      <hr class="featurette-divider">
+      <br>
+      <br>
+  
+      <div class="row featurette" data-aos="fade-up">
+        <div class="col-md-7" data-aos="fade-right">
+          <h2 class="featurette-heading" style="color:whitesmoke;">정말 많은 게임. <span class="text-muted">정말 많은 고민.</span></h2>
+          <p class="lead" style="color:whitesmoke;"><br>세상에는 정말 많은 게임이 있습니다.<br>하지만 사람마다 재미있게 생각하는 게임은 모두 다르죠.<br>어떤 게임이 당신과 잘 맞는지 아는 사람은 얼마 없습니다.<br>어쩌면 당신 스스로도요.</p>
+        </div>
+        <div class="col-md-5" style="background-image: url(/static/img/masterduel.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%;">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="200" height="250"></svg>
+        </div>
+      </div>
+  
+      <br>
+      <br>
+      <hr class="featurette-divider" style="background-color: whitesmoke;" data-aos="fade-up">
+      <br>
+      <br>
+      
+      <div class="row featurette" data-aos="fade-up">
+        <div class="col-md-7 order-md-2" data-aos="fade-left">
+          <h2 class="featurette-heading" style="color:whitesmoke;">알려드릴게요. <span class="text-muted">고민을 해결해줄 좋은 방법.</span></h2>
+          <p class="lead" style="color:whitesmoke;"><br>걱장하지 마세요. 우리가 도와줄게요.<br>여기 좋은 방법을 소개합니다.<br>쉽고 빠르게 당신의 고민을 해결해줄 겁니다.<br>한번 경험해보세요.</p>
+        </div>
+        <div class="col-md-5 order-md-1" style="background-image: url(/static/img/MH.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%;">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="200" height="250"></svg>
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <hr class="featurette-divider" style="background-color: whitesmoke;" data-aos="fade-up">
+      <br>
+      <br>
+  
+      <div class="row featurette" data-aos="fade-up">
+        <div class="col-md-7" data-aos="fade-right">
+          <h2 class="featurette-heading" style="color:whitesmoke;">당신이 좋아하는 게임. <span class="text-muted">당신을 위한 게임.</span></h2>
+          <p class="lead" style="color:whitesmoke;"><br>수많은 게임 중 당신이 좋아할 수 있는 게임을 찾아줍니다.<br>어쩌면 당신도 모르는 게임일지도 모르지요.<br>새로운 게임을 시작할 수 있는 기회를 찾을 수도 있습니다.</p>
+        </div>
+        <div class="col-md-5" style="background-image: url(/static/img/elden.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%;">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="200" height="250"></svg>
+        </div>
+      </div>
+  
+      <!-- /END THE FEATURETTES -->
+  
+    </div><!-- /.container -->
+
+    <script>
+      AOS.init();
+    </script>
+  </body>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+    <ul class="list-inline">
+      <li class="list-inline-item">홍주성</li>
+      <li class="list-inline-item">임승욱</li>
+    </ul>
+  </footer>
+
+</html>

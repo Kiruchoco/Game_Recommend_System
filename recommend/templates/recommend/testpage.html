@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+
+    <title>게임 추천 사이트</title>
+
+    <!-- 부트스트랩 -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!--AOS스크롤 애니메이션-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" >
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+
+  <body style="background-color: rgb(49, 49, 49);">
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/test.js' %}"></script>
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:rgb(49, 49, 49);">
+          <a class="navbar-brand" href="#">게임 추천</a>
+          
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              
+              <li class="nav-item active">
+                <a class="nav-link" href="{% static 'js/test.js' %}">메뉴</a> <!--테스트 js파일 연결-->
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">별점</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">분석</a>
+              </li>
+            </ul>
+          </div>
+          {% if user.is_authenticated %}
+          <a class="" style="color:white"> {{ user.username }}님 환영합니다.</a><br>
+          {% else %}
+          <a class="" style="color:white"> 현재 비로그인 상태입니다. </a><br>
+          {% endif %}
+        </nav>
+    </header>
+
+    <div class="position-relative overflow-hidden text-left bg-light" style="background-image:url(/static/img/PUBG.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+        <div class=" p-lg-5 mx-auto my-5">
+          <h1 class="display-4 font-weight-normal" style="color: whitesmoke;">게임 추천 서비스</h1>
+          <p class="lead font-weight-normal" style="color:whitesmoke;">어떤 게임을 할지 고민인 사람들을 위한 서비스. <br> 당신이 가장 재미있게 할 수 있는 게임을 찾아보세요.</p>
+          <a class="btn btn-outline-secondary btn-lg" href="index" style="background-color: rgb(119, 88, 246); color: whitesmoke;">Main으로</a>
+        </div>
+  
+        <div class="product-device shadow-sm d-none d-md-block"></div>
+        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+      </div>
+
+      <br>
+      <br>
+
+     <!-- https://bootstrapious.com/p/bootstrap-checkbox-list-->
+     <section>
+      <div class="container" data-aos="fade-up">
+          <div class="row">
+              <div class="col-lg-7 mx-auto">
+                  <div class="card shadow border-0 mb-5">
+                      <div class="card-body p-5">
+                          <h2 class="h4 mb-1">Choose Your Game</h2>
+                          <p class="small text-muted font-italic mb-4">당신의 취향에 맞는 게임을 알려주세요</p>
+
+                          <ul class="list-group">
+                            <form action="{% url 'testpage' %}" method="post" enctype="multipart/form-data">
+                              {% csrf_token %}
+                            <li class="list-group-item rounded-0 d-flex align-items-center justify-content-between">
+                              <div class="form-check">
+                                <input type="checkbox" name="test_list" value="Action"> 
+                                <label class="form-check-label" for="flexCheckDefault">액션게임</label>
+                              </div>
+                              <label for="customRadio1"><img src="/static/img/logo1.jpg" alt="" width="60" style="border-radius: 70%;"></label>
+                            </li>
+
+                            <form action="{% url 'testpage' %}" method="post" enctype="multipart/form-data">
+                              {% csrf_token %} 
+                            <li class="list-group-item rounded-0 d-flex align-items-center justify-content-between">
+                                <div class="form-check">
+                                  <input type="checkbox" name="test_list" value="RPG"> 
+                                  <label class="form-check-label" for="flexCheckDefault">RPG게임</label>
+                                </div>
+                                <label for="customRadio1"><img src="/static/img/RPG.png" alt="" width="60" style="border-radius: 70%;"></label>
+                            </li>
+
+                            <form action="{% url 'testpage' %}" method="post" enctype="multipart/form-data">
+                              {% csrf_token %} 
+                            <li class="list-group-item rounded-0 d-flex align-items-center justify-content-between">
+                                <div class="form-check">
+                                  <input type="checkbox" name="test_list" value="Indie"> 
+                                  <label class="form-check-label" for="flexCheckDefault">인디게임</label>
+                                </div>
+                                <label for="customRadio1"><img src="/static/img/Indie.png" alt="" width="60"></label>
+                            </li>
+                          </ul>
+                          
+                          <br>
+                          <div style="text-align: center;">
+                            <button class="btn btn-primary" type="submit">제출</button>
+                            <!--<a class="btn btn-outline-secondary btn-lg" href="first" style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>-->
+                          </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!--
+  <div id="write" style='color: white'>
+    <script src="/static/js/test.js">
+    </script>
+  </div>
+-->
+  
+  <script>
+    AOS.init();
+  </script>
+  </body>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+    <ul class="list-inline">
+      <li class="list-inline-item">홍주성</li>
+      <li class="list-inline-item">임승욱</li>
+    </ul>
+  </footer>
+
+</html>
