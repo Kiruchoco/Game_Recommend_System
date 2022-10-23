@@ -1,0 +1,374 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.6">
+  <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+
+  <title>게임 추천 사이트</title>  
+  <!--JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="{% static 'js/jqcloud-1.0.4.js' %}"></script>
+  <link href="{% static 'css/jqcloud.css' %}" rel="stylesheet">
+
+  <!-- 부트스트랩 -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!--AOS스크롤 애니메이션-->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!--차트js-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+</head>
+
+<body style="background-color: rgb(49, 49, 49);">
+  <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+
+  <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/test.js' %}"></script>
+
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:rgb(49, 49, 49);">
+      <a class="navbar-brand" href="{% url 'index' %}">게임 추천 서비스</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:show_games' %}"
+              style="color: white;">나의평가</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:evaluation' %}"
+              style="color: white;">평가하기</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">성향분석</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:user_recommend' %}"
+              style="color: white;">게임추천</a>
+          </li>
+        </ul>
+      </div>
+      {% if user.is_authenticated %}
+      <a class="" style="color:white"> {{ user.username }}님 환영합니다. </a><br>
+      {% else %}
+      <a class="" style="color:white"> 현재 비로그인 상태입니다. </a><br>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="position-relative overflow-hidden text-left bg-light"
+    style="background-image:url(/static/img/PUBG.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+    <div class=" p-lg-5 mx-auto my-5">
+      <h1 class="display-4 font-weight-normal" style="color: whitesmoke;">게임 추천 서비스</h1>
+      <p class="lead font-weight-normal" style="color:whitesmoke;">어떤 게임을 할지 고민인 사람들을 위한 서비스. <br> 당신이 가장 재미있게 할 수 있는
+        게임을 찾아보세요.</p>
+      <a class="btn btn-outline-secondary btn-lg" href="{% url 'index' %}"
+        style="background-color: rgb(119, 88, 246); color: whitesmoke;">홈으로</a>
+    </div>
+
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="text-center">
+    <h1 class="section-heading" style="color:white;" data-aos="fade-up">Your Taste</h2>
+      <h4 class="section-subheading text-muted" style="color:white;" data-aos="fade-up">당신의 취향을 한눈에</h3>
+  </div>
+
+  <!-- add space-->
+  <section class="py-5" style="background-color: rgb(49, 49, 49);">
+    <div class="container-fluid">
+      <div class="row align-items-stretch gy-4">
+
+        <!-- 1st chart-->
+        <div class="col-lg-10 col-md-6" style="float: none; margin : 0 auto" data-aos="fade-up">
+          <div class="card shadow-0">
+            <li class="list-group-item rounded-0 align-items-center justify-content-between">
+
+              <p class="mb-0 text-xs text-gray-500">{{ user.username }}님의 별점 분포도</p>
+
+              <br>
+
+              <div class="chart">
+                <canvas id="stars_Chart" width="1200" height="550"></canvas>
+
+                <!--차트, 지금은 js파일로 분리하면 나오지 않는다. 추후수정-->
+                <script>
+                  // 차트를 그럴 영역을 dom요소로 가져온다.
+                  var chartArea = document.getElementById('stars_Chart').getContext('2d');
+                  // 차트를 생성한다.
+                  var list_cnt = "{{ list_stars|safe }}";
+                  list_cnt = list_cnt.replace("[", "");
+                  list_cnt = list_cnt.replace("]", "");
+                  list_cnt = list_cnt.replace("'", "");
+                  list_cnt = list_cnt.split(",");
+                  console.log(list_cnt)
+                  const arrayline = [1,2,3,4,5];
+
+                  var stars_Chart = new Chart(chartArea, {
+                    // ①차트의 종류(String)
+                    type: 'bar',
+                    // ②차트의 데이터(Object)
+                    data: {
+                      // ③x축에 들어갈 이름들(Array)
+                      labels: [1, 2, 3, 4, 5],
+                      // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+                      datasets: [{
+                        // ⑤dataset의 이름(String)
+                        label: 'Total',
+                        // ⑥dataset값(Array)
+                        data: list_cnt,
+                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)',
+                                          'rgba(54, 162, 255, 0.2)',
+                                          'rgba(255, 206, 86, 0.2)',
+                                          'rgba(75, 192, 192, 0.2)',
+                                          'rgba(253, 102, 255, 0.2)'
+                                        ],
+                        // ⑧dataset의 선 색(rgba값을 String으로 표현)
+                        borderColor: ['rgba(255, 99, 132, 0.2)',
+                                      'rgba(54, 162, 255, 0.2)',
+                                      'rgba(255, 206, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(253, 102, 255, 0.2)'
+                                      ],
+                        // ⑨dataset의 선 두께(Number)
+                        borderWidth: 3
+                      }]
+                    },
+                    // ⑩차트의 설정(Object)
+                    options: {
+                      //차트크기 반응형 기능 제거
+                      responsive: true,
+                      // ⑪축에 관한 설정(Object)
+                      scales: {
+                        // ⑫y축에 대한 설정(Object)
+                        y: {
+                          // ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
+                          beginAtZero: true
+                        }
+                      },
+                      //tooltip 커스텀 여기부터
+                      plugins:{
+                          tooltip:{
+                            callbacks: {
+                              //title
+                              beforeTitle: function(context){
+                                return '평가한 게임의 별점 :';
+                              },
+                              /*
+                              afterTitle: function(context){
+                                return '================';
+                              },
+                              */
+
+                              //body
+                              beforeBody: function(context){
+                                return '---------------------------';
+                              },
+
+                              //label. body 안에 생성
+                              beforeLabel: function(context){
+                                return '해당 별점 게임 수:';
+                              },
+                              afterLabel: function(context){
+                                return '개의 게임';
+                              },
+
+                              afterBody: function(context){
+                                return '---------------------------';
+                              },
+                            }
+                          }
+                        }
+                    }
+                  });
+                </script>
+              </div>
+
+            </li>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- add space-->
+  <section class="py-5" style="background-color: rgb(62, 62, 62);">
+    <div class="container-fluid">
+      <div class="row align-items-stretch gy-4">
+
+        <!-- 2nd chart-->
+        <div class="col-lg-5 col-md-6" style="float: none; margin : 0 auto" data-aos="fade-up">
+          <div class="card shadow-0">
+            <li class="list-group-item rounded-0 align-items-center justify-content-between">
+
+              <p class="mb-0 text-xs text-gray-500">{{ user.username }}님의 개발사 선호도</p>
+
+              <br>
+
+              <div class="chart">
+                <canvas id="myChart" width="550" height="550"></canvas>
+
+                <!--차트, 지금은 js파일로 분리하면 나오지 않는다. 추후수정-->
+                <script type="text/javascript">
+                  // 차트를 그럴 영역을 dom요소로 가져온다.
+                  var chartArea = document.getElementById('myChart').getContext('2d');
+                  // 차트를 생성한다. 
+                  var list_genre = "{{ list_recommend.4|safe }}"
+                  //list_genre=list_genre.replace("[","");
+                  //list_genre=list_genre.replace("]","");
+                  list_genre = list_genre.split("//");
+                  console.log(list_genre)
+
+                  console.log('{{list_recommend}}');
+
+                  var list_value = "{{ list_recommend.5|safe }}";
+                  list_value = list_value.replace("[", "");
+                  list_value = list_value.replace("]", "");
+                  list_value = list_value.replace("'", "");
+                  list_value = list_value.split(",");
+                  console.log(list_value)
+                  var myChart = new Chart(chartArea, {
+                    // ①차트의 종류(String)
+                    type: 'pie',
+                    // ②차트의 데이터(Object)
+                    data: {
+                      // ③x축에 들어갈 이름들(Array)
+                      labels: list_genre,
+                      // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+                      datasets: [{
+                        // ⑤dataset의 이름(String)
+                        label: '# of Votes',
+                        // ⑥dataset값(Array)
+                        data: list_value,
+                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
+                        backgroundColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(54, 162, 235)',
+                          'rgb(255, 205, 86)',
+                          'rgb(255, 145, 75)',
+                          'rgb(75, 205, 86)',
+                          'rgb(235, 100, 116)',
+                          'rgb(135, 115, 55)',
+                          'rgb(35, 235, 194)',
+                          'rgb(25, 205, 155)',
+                        ],
+                      }]
+
+                    },
+                    // ⑩차트의 설정(Object)
+                    options: {
+                      //차트크기 반응형
+                      responsive: true,
+                      // ⑪축에 관한 설정(Object)
+                      scales: {
+                      }
+                    }
+                  });
+                </script>
+              </div>
+
+            </li>
+          </div>
+        </div>
+
+        <!-- word_cloud-->
+        <div class="col-lg-5 col-md-6" style="float: none; margin : 0 auto" data-aos="fade-up">
+          <div class="card shadow-0">
+            <li class="list-group-item rounded-0 align-items-center justify-content-between">
+
+              <p class="mb-0 text-xs text-gray-500">{{ user.username }}님의 태그 선호도</p>
+
+              <br>
+
+              <div class="chart">
+                <!--<canvas id="tags_Chart" width="550" height="550"></canvas>-->
+                <div id="container" style="width: 550px; height: 550px; max-width: 100%; max-height: 100%;"></div>
+                <!--<div id="my_favorite_latin_words" style="width: 550px; height: 550px; max-width: 100%; max-height: 100%;"></div>-->
+
+                <!--차트, 지금은 js파일로 분리하면 나오지 않는다. 추후수정-->
+                <script type="text/javascript">
+                  anychart.onDocumentReady(function () {
+
+                    // 차트를 생성한다. 
+                    var list_tag = "{{ list_recommend.2|safe }}"
+                    //list_tag=list_tag.replace("[","");
+                    //list_tag=list_tag.replace("]","");
+                    list_tag = list_tag.split("//");
+                    console.log(list_tag);
+
+
+                    var list_tag_value = "{{ list_recommend.3|safe }}";
+                    list_tag_value = list_tag_value.replace("[", "");
+                    list_tag_value = list_tag_value.replace("]", "");
+                    list_tag_value = list_tag_value.replace("'", "");
+                    list_tag_value = list_tag_value.split(",");
+                    console.log(list_tag_value)
+                    // 객체 형태로 변환            
+                    var new_data = [];
+                    for (let i = 0; i < list_tag.length; i++) {
+                      var temp_tags = {
+                        "text": list_tag[i],
+                        "weight": Number(list_tag_value[i]),
+                      };
+                      new_data.push(temp_tags);
+                    };
+                    console.log(new_data);
+
+                    $(function() {
+                      //$("#my_favorite_latin_words").jQCloud(new_data, {shape: "rectangular"});
+                      $("#container").jQCloud(new_data, {shape: "rectangular"});
+                    });
+                  });
+                </script>
+              </div>
+            </li>
+          </div>
+        </div>
+        </li>
+      </div>
+    </div>
+    </div>
+  </section>
+
+</body>
+
+<script>
+  AOS.init();
+</script>
+
+</body>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+  <ul class="list-inline">
+    <li class="list-inline-item">홍주성</li>
+    <li class="list-inline-item">임승욱</li>
+  </ul>
+</footer>
+
+</html>

@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.6">
+  <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+
+  <title>게임 추천 서비스</title>
+
+  <!-- 부트스트랩 -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!--AOS스크롤 애니메이션-->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body style="background-color: rgb(49, 49, 49);">
+  <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/test.js' %}"></script>
+
+  <header>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:rgb(78, 78, 78);">
+      <a class="navbar-brand" href="{% url 'index' %}">게임 추천 서비스</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
+          {% if check_data %}
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:show_games' %}"
+              style="color: white;">나의평가</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:evaluation' %}"
+              style="color: white;">평가하기</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:tendency' %}"
+              style="color: white;">성향분석</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:user_recommend' %}"
+              style="color: white;">게임추천</a>
+          </li>
+          {% else %}
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link disabled m-2" href="{% url 'analysis:show_games' %}"
+              style="color: white;">나의평가</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn btn-secondary nav-link m-2" href="{% url 'analysis:evaluation' %}"
+              style="color: white;">평가하기</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">성향분석</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">게임추천</a>
+          </li>
+          {% endif %}
+          {% else %}
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">나의평가</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">평가하기</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">성향분석</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">게임추천</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      {% if user.is_authenticated %}
+      <a class="" style="color:white"> {{ user.username }}님 환영합니다.</a><br>
+      <a class="btn btn-secondary nav-link m-2" href="{% url 'common:logout' %}" style="color: white;">로그아웃</a>
+      {% else %}
+      <a class="btn btn-secondary nav-link m-2" href="{% url 'common:signup' %}">회원가입</a>
+      <a class="btn btn-secondary nav-link m-2" href="{% url 'common:login' %}">로그인</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <script>$('.carousel').carousel({
+        interval: 3000
+      })</script>
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100" src="/static/img/PUBG.jpg" alt="First slide" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          {% if user.is_authenticated %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            onclick="return confirm('게임 추천이 처음이신가요? \n처음이 아니시라면 상단의 평가하기를 이용해주세요.')"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% else %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% endif %}
+          <br>
+          <br>
+          <h1>게임 추천 서비스</h1>
+          <p>어떤 게임을 할지 고민인 사람들을 위한 서비스</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="/static/img/gundam.jpg" alt="Second slide" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          {% if user.is_authenticated %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            onclick="return confirm('게임 추천이 처음이신가요? \n처음이 아니시라면 상단의 평가하기를 이용해주세요.')"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% else %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% endif %} <br>
+          <br>
+          <h1>게임 추천 서비스</h1>
+          <p>어떤 게임을 할지 고민인 사람들을 위한 서비스</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="/static/img/fifa.jpg" alt="Third slide" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          {% if user.is_authenticated %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            onclick="return confirm('게임 추천이 처음이신가요? \n처음이 아니시라면 상단의 평가하기를 이용해주세요.')"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% else %}
+          <a class="btn btn-outline-secondary btn-lg" href="{% url 'choice_genres' %}"
+            style="background-color: rgb(119, 88, 246); color: whitesmoke;">Test Start</a>
+          {% endif %} <br>
+          <br>
+          <h1 style="color: rgb(63, 63, 63);">게임 추천 서비스</h1>
+          <p style="color: rgb(63, 63, 63);">어떤 게임을 할지 고민인 사람들을 위한 서비스</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <br>
+  <br>
+
+  <section class="page-section" id="pageinfo">
+    <div class="container">
+      <div class="text-center">
+        <h1 class="section-heading" style="color:white;" data-aos="fade-up">WELCOME</h2>
+          <h4 class="section-subheading text-muted" style="color:white;" data-aos="fade-up">게임 추천 도구를 사용해보세요</h3>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="row text-center">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="row featurette"
+            style="background-image:  url(/static/img/masterduel.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%; float: none; margin:0 auto;"
+            data-aos="fade-up">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="150"
+              height="300"></svg>
+          </div>
+          <h4 class="my-3" style="color:white;">정말 많은 게임</h4>
+          <p class="text-muted">세상에는 정말 많은 게임이 있습니다. 어떤 게임이 당신과 잘 맞는지 아는 사람은 얼마 없습니다. 어쩌면
+            당신 스스로도요.</p>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="row featurette"
+            style="background-image: url(/static/img/MH.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%; float: none; margin:0 auto;"
+            data-aos="fade-up">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="150"
+              height="300"></svg>
+          </div>
+          <h4 class="my-3" style="color:white;">고민을 해결해줄 좋은 방법</h4>
+          <p class="text-muted">걱정하지 마세요. 우리가 도와줄게요. 여기 좋은 방법을 소개합니다. 쉽고 빠르게 당신의 고민을 해결해줄 겁니다. 한번 경험해보세요</p>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="row featurette"
+            style="background-image: url(/static/img/elden.jpg); border-radius: 3%; background-repeat: no-repeat; background-size: cover; width: 100%; float: none; margin:0 auto;"
+            data-aos="fade-up">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="150"
+              height="300"></svg>
+          </div>
+          <h4 class="my-3" style="color:white;"">당신을 위한 게임</h4>
+                  <p class=" text-muted">수많은 게임 중 당신이 좋아할 수 있는 게임을 찾아줍니다. 새로운 게임을 시작할 수 있는 기회를 찾을 수도 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    AOS.init();
+  </script>
+</body>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+  <ul class="list-inline">
+    <li class="list-inline-item">홍주성</li>
+    <li class="list-inline-item">임승욱</li>
+  </ul>
+</footer>
+
+</html>

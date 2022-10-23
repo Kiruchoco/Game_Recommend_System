@@ -1,0 +1,43 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+  <!-- pybo CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <!--AOS스크롤 애니메이션-->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <title>게임추천 사이트</title>
+</head>
+
+<body style="background-color: rgb(49, 49, 49);">
+  <!-- 네비게이션바 -->
+  {% include "navbar.html" %}
+  <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+  {% block content %}
+  {% endblock %}
+  <!-- 기본 템플릿 안에 삽입될 내용 End -->
+  <!-- Bootstrap JS -->
+  <script src="{% static 'bootstrap.min.js' %}"></script>
+
+  <script>
+    AOS.init();
+  </script>
+</body>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+  <ul class="list-inline">
+    <li class="list-inline-item">홍주성</li>
+    <li class="list-inline-item">임승욱</li>
+  </ul>
+</footer>
+
+</html>

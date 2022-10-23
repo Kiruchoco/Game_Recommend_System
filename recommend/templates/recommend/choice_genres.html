@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.6">
+  <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+
+  <title>게임 추천 사이트</title>
+
+  <!-- 부트스트랩 -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!--AOS스크롤 애니메이션-->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body style="background-color: rgb(49, 49, 49);">
+  <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/test.js' %}"></script>
+
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:rgb(49, 49, 49);">
+      <a class="navbar-brand" href="#">게임 추천 서비스</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">나의평가</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">평가하기</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">성향분석</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn btn-secondary nav-link disabled m-2" href="#" tabindex="-1" aria-disabled="true">게임추천</a>
+          </li>
+        </ul>
+      </div>
+      {% if user.is_authenticated %}
+      <a class="" style="color:white"> {{ user.username }}님 환영합니다.</a><br>
+      {% else %}
+      <a class="" style="color:white"> 현재 비로그인 상태입니다. </a><br>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="position-relative overflow-hidden text-left bg-light"
+    style="background-image:url(/static/img/PUBG.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+    <div class=" p-lg-5 mx-auto my-5">
+      <h1 class="display-4 font-weight-normal" style="color: whitesmoke;">게임 추천 서비스</h1>
+      <p class="lead font-weight-normal" style="color:whitesmoke;">어떤 게임을 할지 고민인 사람들을 위한 서비스. <br> 당신이 가장 재미있게 할 수 있는
+        게임을 찾아보세요.</p>
+      <a class="btn btn-outline-secondary btn-lg" href="index"
+        style="background-color: rgb(119, 88, 246); color: whitesmoke;">홈으로</a>
+    </div>
+
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+  </div>
+
+
+  <section class="py-5" style="background-color: rgb(49, 49, 49);" data-aos="fade-up">
+
+
+    <div class="text-center">
+      <h1 class="section-heading" style="color:white;" data-aos="fade-up">Choose Your Game</h2>
+        <h4 class="section-subheading text-muted" style="color:white;" data-aos="fade-up">당신의 취향에 맞는 게임을 알려주세요</h3>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="col-lg-12 mx-auto">
+      <div class="card shadow border-0 mb-5" style="background-color: rgba(250, 246, 246, 0.925);">
+        <div class="card-body p-5">
+
+          <div class="container-fluid">
+            <div class="row align-items-stretch gy-4">
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    액션게임
+                  </div>
+                  <img src="/static/img/action.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Action</h5>
+                    <p class="card-text">가장 많은 사람들에게 사랑받는 장르입니다. 간단한 조작과 멋진 타격감이 최고의 장점입니다. 또한 가족이나 친구들과 함께 할수 있는 게임도
+                      많습니다.</p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="Action">CHECK
+                        </label>
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    RPG게임
+                  </div>
+                  <img src="/static/img/roll.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Roll Play</h5>
+                    <p class="card-text">플레이어가 이야기 속의 주인공이 되는 장르입니다. 수많은 이야기와 모험이 기다리고 있습니다. 오랫동안 꾸준히 인기가 있는 장르입니다.</p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="RPG">CHECK
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    인디게임
+                  </div>
+                  <img src="/static/img/indie.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Indie</h5>
+                    <p class="card-text">수많은 개발자, 제작사가 자신들의 아이디어를 게임에 마음껏 구현했습니다. 새로운 재미를 찾는 사람들에게는 안성맞춤인 장르입니다.</p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="Indie">CHECK
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    전략게임
+                  </div>
+                  <img src="/static/img/Strategy.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Strategy</h5>
+                    <p class="card-text">신중한 선택과 꼼꼼한 작전을 요구하는 장르입니다. 다양한 방법으로 승리를 얻어내는 재미를 좋아하는 사람에게 추천하는 장르입니다.</p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="Strategy">CHECK
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    스포츠게임
+                  </div>
+                  <img src="/static/img/Sports.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Sports</h5>
+                    <p class="card-text">농구, 야구, 축구, 그리고 다른 모든 스포츠를 즐길수 있는 장르입니다. 집안에서 다양한 스포츠를 간단히 즐기고 싶은 사람에게 추천합니다.
+                    </p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="Sports">CHECK
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="card">
+                  <div class="card-header">
+                    레이싱게임
+                  </div>
+                  <img src="/static/img/Racing.png" alt="" height="150" />
+                  <div class="card-body">
+                    <h5 class="card-title">Racing</h5>
+                    <p class="card-text">최고의 스피드에 도전해보세요. 전세계의 다양한 드림카도 직접 운전할 수 있습니다. 짧은 시간에 최괴의 재미를 찾는 사람에게 추천합니다.</p>
+
+                    <form action="{% url 'choice_genres' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="btn-group-toggle col text-center" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                          <input type="checkbox" name="test_list" value="Racing">CHECK
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+  
+
+          <br>
+          <br>
+          <div style="text-align: center;">
+            <button class="btn btn-primary btn-lg"
+              onclick="return confirm('선호하는 장르 2 ~ 3개를 반드시 선택해주세요. \n선택한 내용에 대해 이후 수정하실 수 없습니다.')" type="submit">선택 완료</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+  <div id="write" style='color: white'>
+    <script src="/static/js/test.js">
+    </script>
+  </div>
+-->
+
+  <script>
+    AOS.init();
+  </script>
+</body>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; 2022 Capstone Design Team 1-19</p>
+  <ul class="list-inline">
+    <li class="list-inline-item">홍주성</li>
+    <li class="list-inline-item">임승욱</li>
+  </ul>
+</footer>
+
+</html>
