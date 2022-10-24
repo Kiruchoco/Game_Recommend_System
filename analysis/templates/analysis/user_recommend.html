@@ -70,6 +70,7 @@
   <div class="position-relative overflow-hidden text-left bg-light"
     style="background-image:url(/static/img/PUBG.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
     <div class=" p-lg-5 mx-auto my-5">
+      <a name="header"></a>
       <h1 class="display-4 font-weight-normal" style="color: whitesmoke;">게임 추천 서비스</h1>
       <p class="lead font-weight-normal" style="color:whitesmoke;">어떤 게임을 할지 고민인 사람들을 위한 서비스. <br> 당신이 가장 재미있게 할 수 있는
         게임을 찾아보세요.</p>
@@ -82,10 +83,16 @@
   </div>
 
   <!-- Header Section-->
+  <a name="link_users"></a>
   <section class="py-5" style="background-color: rgb(49, 49, 49);">
     <div class="text-center">
       <h1 class="section-heading" style="color:white;" data-aos="fade-up">Games For You</h2>
         <h4 class="section-subheading text-muted" style="color:white;" data-aos="fade-up">다음과 같은 게임을 추천합니다</h3>
+          <br>
+          <a class="btn btn-outline-secondary btn" href="#link_users" style="background-color: rgb(186, 182, 202); color: white;" data-aos="fade-up">유사한 사용자들</a>
+          <a class="btn btn-outline-secondary btn" href="#link_items" style="background-color: rgb(186, 182, 202); color: white;" data-aos="fade-up">선호하는 게임</a>
+          <a class="btn btn-outline-secondary btn" href="#link_tags" style="background-color: rgb(186, 182, 202); color: white;" data-aos="fade-up">선호하는 태그</a>
+          <a class="btn btn-outline-secondary btn" href="#link_developers" style="background-color: rgb(186, 182, 202); color: white;" data-aos="fade-up">선호하는 개발사</a>
     </div>
 
     <br>
@@ -93,18 +100,19 @@
 
     <div class="container-fluid">
       <div class="row d-flex align-items-md-stretch col-lg-11" style="float: none; margin : 0 auto">
-
+        
         <!-- 사용자와 유사한 사용자들의 게임 패턴-->
         <div class="col-lg-10 col-md-12" style="float: none; margin : 0 auto" data-aos="fade-up">
           <div class="card shadow-0">
-            <div class="card">
+            <div class="card" name="users_testing">
               <div class="card-header border-bottom">
-                <h2 class="h5 fw-normal mb-0"><a class="card-collapse-link text-dark d-block" data-bs-toggle="collapse"
-                    href="#updates-box" aria-expanded="true">유사한 사용자들의 라이브러리</a></h2>
+                <h2 class="h5 fw-normal mb-0">
+                  <a class="card-collapse-link text-dark d-block" data-bs-toggle="collapse" href="#users" aria-expanded="true">유사한 사용자들의 플레이한 게임들</a>
+                </h2>
               </div>
 
               <div class="card-body p-0">
-                <div class="collapse show" id="updates-box" role="tabpanel">
+                <div class="collapse show" id="users" role="tabpanel">
                   <ul class="list-unstyled">
 
                     <!-- Item. white bag ground-->
@@ -176,6 +184,7 @@
                     </div>
 
                     <!-- Item. white bag ground-->
+                    <a name="link_items"></a>
                     <div class="p-3 d-flex justify-content-between">
                       <div class="d-flex"><i class="fas fa-rss text-gray-600"></i>
                         <div class="ms-3">
@@ -186,6 +195,7 @@
                           <!--<p class="mb-0 text-xs text-gray-500"> 추가 정보</p>-->
                         </div>
                       </div>
+
                       <div class="text-end ms-2">
                         <strong class="d-block lh-1 h5 mb-0 text-gray-500 fw-bold text-right">{{ recommend.4.2 }}</strong>
                         <small class="d-block lh-1 text-gray-500 text-right">{{ recommend.4.4 }}</small>
@@ -200,7 +210,7 @@
         </div>
       </div>
     </div>
-
+   
     <br />
 
     <!-- 아이템 기반 추천(최근 플레이한 게임 중 가장 선호도가 높은 게임)-->
@@ -212,11 +222,11 @@
             <div class="card">
               <div class="card-header border-bottom">
                 <h2 class="h5 fw-normal mb-0"><a class="card-collapse-link text-dark d-block" data-bs-toggle="collapse"
-                    href="#updates-box" aria-expanded="true">{{ cosine.0.0 }} 과 유사한 컨텐츠들</a></h2>
+                    href="#items" aria-expanded="true">가장 선호하는 게임 : {{ cosine.0.0 }}과 유사한 게임들</a></h2>
               </div>
 
               <div class="card-body p-0">
-                <div class="collapse show" id="updates-box" role="tabpanel">
+                <div class="collapse show" id="items" role="tabpanel">
                   <ul class="list-unstyled">
 
                     <!-- Item. ligth bag ground-->
@@ -290,6 +300,7 @@
                     </div>
 
                     <!-- Item. ligth bag ground-->
+                    <a name="link_tags"></a>
                     <div class="p-3 d-flex justify-content-between bg-light">
                       <div class="d-flex"><i class="fas fa-rss text-gray-600"></i>
                         <div class="ms-3">
@@ -327,11 +338,11 @@
             <div class="card">
               <div class="card-header border-bottom">
                 <h2 class="h5 fw-normal mb-0"><a class="card-collapse-link text-dark d-block" data-bs-toggle="collapse"
-                    href="#updates-box" aria-expanded="true">{{ top_tags }} 시리즈</a></h2>
+                    href="#tags" aria-expanded="true">가장 선호하는 태그 : {{ top_tags }}가 포함된 인기 게임들</a></h2>
               </div>
 
               <div class="card-body p-0">
-                <div class="collapse show" id="updates-box" role="tabpanel">
+                <div class="collapse show" id="tags" role="tabpanel">
                   <ul class="list-unstyled">
 
                     <!-- Item. white bag ground-->
@@ -407,6 +418,7 @@
                     </div>
 
                     <!-- Item. white bag ground-->
+                    <a name="link_developers"></a>
                     <div class="p-3 d-flex justify-content-between">
                       <div class="d-flex"><i class="fas fa-rss text-gray-600"></i>
                         <div class="ms-3">
@@ -444,11 +456,11 @@
             <div class="card">
               <div class="card-header border-bottom">
                 <h2 class="h5 fw-normal mb-0"><a class="card-collapse-link text-dark d-block" data-bs-toggle="collapse"
-                    href="#updates-box" aria-expanded="true">{{ top_developer }}사의 인기 컨텐츠</a></h2>
+                    href="#developers" aria-expanded="true">가장 선호하는 개발사 : {{ top_developer }}사가 개발한 인기 게임들</a></h2>
               </div>
 
               <div class="card-body p-0">
-                <div class="collapse show" id="updates-box" role="tabpanel">
+                <div class="collapse show" id="developers" role="tabpanel">
                   <ul class="list-unstyled">
                     {% for games in popular_developer %}
                     {% if games.4 == 0 %}
@@ -502,7 +514,9 @@
 <script>
   AOS.init();
 </script>
-
+<div style="position:fixed; bottom:5px; right:5px;">
+  <a class="btn btn-outline-secondary btn" href="#header" style="background-color: rgb(186, 182, 202); color: white;">TOP</a>
+</div>
 </body>
 
 <footer class="my-5 pt-5 text-muted text-center text-small">
