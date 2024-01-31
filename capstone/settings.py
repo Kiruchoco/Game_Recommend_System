@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import json
 from django.contrib.messages import constants as messages_constants
 import os
 from pathlib import Path
@@ -22,7 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b(ww%+qg3@9#&r(a3umnqzh^kl*h_81^hq9r(m-p#os$ac1)t-'
+with open(BASE_DIR/'secrets.json') as f:
+    secrets = json.loads(f.read())
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = secrets['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
