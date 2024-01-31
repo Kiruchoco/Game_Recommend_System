@@ -238,7 +238,7 @@ def make_ratings(id, recommend, games, list_star, max_len=10):
     user_data = pd.merge(user_data, games, on='name')
     user_data = user_data[['userid', 'appid', 'stars']]
 
-    #steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
+    # steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
     # 게임 별점 정보 불러오기
     con = sqlite3.connect('db.sqlite3')
     steam_raw = pd.read_sql("SELECT * FROM game_rating", con)
@@ -339,7 +339,7 @@ def recommend_game_by_surprise(algo, userID, unseen_games, games, top_n=10):
         top_game_developer = games[games['appid'] ==
                                    top_game_ids[idx]]['developer'].values
 
-        #print(top_game_ids[idx], top_game_ratings[idx], top_game_title, top_game_genres)
+        # print(top_game_ids[idx], top_game_ratings[idx], top_game_title, top_game_genres)
         top_game_preds.append(
             [top_game_ids[idx], top_game_ratings[idx], top_game_title[0], game_tags, top_game_genres[0], top_game_developer[0]])
 
@@ -348,13 +348,13 @@ def recommend_game_by_surprise(algo, userID, unseen_games, games, top_n=10):
 
 def second_game_recommend(data_folds, ratings, games, userid):
     # 저장했던 데이터 불러오기
-    #reader = Reader(line_format='userid appid stars')
+    # reader = Reader(line_format='userid appid stars')
 
-    #data_folds = DatasetAutoFolds(df=ratings, reader=reader)
+    # data_folds = DatasetAutoFolds(df=ratings, reader=reader)
 
     # 전부 훈련 데이터로 사용함
     trainset = data_folds.build_full_trainset()
-    algo = SVD()
+    algo = SVD(n_factors=5, n_epochs=30, lr_all=0.005, reg_all=0.1)
     algo.fit(trainset)
 
     unseen_lst = get_unplay_surprise(ratings, games, userid)

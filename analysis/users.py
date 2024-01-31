@@ -88,7 +88,7 @@ def calc_tags(id):
 
     # if len(result_key) >= 9:
     # result_key = result_key[0:9]
-    #print('before : ', result_key)
+    # print('before : ', result_key)
 
     result_key = '//'.join([str(i) for i in list(result_key)])  # 구분자 변경
     # print('after : ', result_key)
@@ -97,7 +97,7 @@ def calc_tags(id):
     result_count = list(result_count)
     # 태그 갯수가 9개가 넘어갈 경우
     # if len(result_count) >= 9:
-    #result_count = result_count[0:9]
+    # result_count = result_count[0:9]
     # print(result_count)
 
     # print(result_key)
@@ -212,7 +212,7 @@ def make_ratings(id, recommend, games, list_star, max_len=10):
     print(user_data)
     user_data = user_data[['userid', 'appid', 'stars']]
 
-    #steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
+    # steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
     con = sqlite3.connect('db.sqlite3')
     steam_raw = pd.read_sql("SELECT * FROM game_rating", con)
 
@@ -250,7 +250,7 @@ def read_dataset():
 
 
 def temp_ratings():
-    #steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
+    # steam_raw = pd.read_csv("data/game_rating.csv", header=None, names=["userid", "appid", "stars"])
     con = sqlite3.connect('db.sqlite3')
 
     steam_raw = pd.read_sql("SELECT * FROM game_rating", con)
@@ -267,7 +267,7 @@ def second_train_data():
     data_folds = DatasetAutoFolds(
         ratings_file='data/game_ratings.csv', reader=reader)
 
-    #ratings = pd.read_csv('data/game_ratings.csv',sep=',',names=['userID','appid','stars'])
+    # ratings = pd.read_csv('data/game_ratings.csv',sep=',',names=['userID','appid','stars'])
 
     return data_folds
 
@@ -342,7 +342,7 @@ def recommend_game_by_surprise(algo, userID, unseen_games, games, top_n=20):
 def second_game_recommend(data_folds, ratings, games, userid):
     # 전부 훈련 데이터로 사용함
     trainset = data_folds.build_full_trainset()
-    algo = SVD()
+    algo = SVD(n_factors=5, n_epochs=30, lr_all=0.005, reg_all=0.1)
     algo.fit(trainset)
 
     unseen_lst = get_unplay_surprise(ratings, games, userid)
