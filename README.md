@@ -5,8 +5,8 @@
 Hong JuSeong, Lim Seungwook
 
 ### Using Tools
-- Data Processing : Django, Python Surprise, Numpy, Pandas, SQLite3
-- Web Programming : Bootstrap
+- Data Processing : Anaconda, Python Surprise, Numpy, Pandas, SQLite3
+- Web Programming : Django, Bootstrap
 - Visualizing : Chart JS, JQCloud JS
 
 ### Using Dataset & API : SteamWorks API, Kaggle
